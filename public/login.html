@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion - Formulaire Sécurisé</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- CSP pour protéger contre les attaques XSS -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; frame-src https://www.google.com/recaptcha/; style-src 'self' 'unsafe-inline';">
+    <!-- Protection contre le clickjacking -->
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <!-- Protection contre le MIME-sniffing -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <!-- Inclusion du script reCAPTCHA -->
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <!-- Configuration des variables d'environnement -->
+    <script src="/env-config.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Connexion</h1>
+        
+        <div id="message-container"></div>
+        
+        <form id="login-form" method="post" action="/api/login">
+            <div class="form-group">
+                <label for="email">Email *</label>
+                <input type="email" id="email" name="email" required 
+                       >
+                       <!-- pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" -->
+
+                <small class="form-text">Adresse email valide requise</small>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Mot de passe *</label>
+                <input type="password" id="password" name="password" required 
+                       pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{10,}$">
+                <small class="form-text">Minimum 10 caractères, incluant majuscule, minuscule, chiffre et caractère spécial</small>
+            </div>
+            
+            <!-- Protection CSRF avec token -->
+            <input type="hidden" name="_csrf" id="csrf-token">
+            
+            <!-- reCAPTCHA -->
+            <div class="form-group">
+                <div class="g-recaptcha" data-sitekey="6Lf2tjYrAAAAAFKv3QGsvc0zEAdhC4lHpRwwaT2a"></div>
+                <small class="form-text">Veuillez valider que vous n'êtes pas un robot</small>
+            </div>
+            
+            <div class="form-group">
+                <button type="submit" id="submit-button">Se connecter</button>
+            </div>
+        </form>
+    </div>
+
+    <script src="js/loginValidation.js"></script>
+</body>
+</html>

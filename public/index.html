@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulaire de Contact Sécurisé</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- CSP pour protéger contre les attaques XSS -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; frame-src https://www.google.com/recaptcha/; style-src 'self' 'unsafe-inline';">
+    <!-- Protection contre le clickjacking -->
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <!-- Protection contre le MIME-sniffing -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <!-- Inclusion du script reCAPTCHA -->
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <!-- Configuration des variables d'environnement -->
+    <script src="/env-config.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Formulaire de Contact Sécurisé</h1>
+        
+        <div id="user-info">
+            <p>Connecté en tant que: <span id="user-email"></span></p>
+            <button id="logout-button" class="secondary-button">Déconnexion</button>
+        </div>
+        
+        <div id="message-container"></div>
+        
+        <form id="contact-form" method="post" action="/api/contact">
+            <div class="form-group">
+                <label for="name">Nom *</label>
+                <input type="text" id="name" name="name" required pattern="^[a-zA-ZÀ-ÿ\s-]{2,50}$" 
+                       title="Le nom doit contenir entre 2 et 50 caractères (lettres, espaces ou tirets uniquement)">
+                <small class="form-text">2-50 caractères, lettres uniquement</small>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email *</label>
+                <input type="email" id="email" name="email" required 
+                       
+                       >
+                       <!-- pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" -->
+                <small class="form-text">Adresse email valide requise</small>
+            </div>
+            
+            <div class="form-group">
+                <label for="message">Message *</label>
+                <textarea id="message" name="message" required minlength="10" maxlength="1000"></textarea>
+                <small class="form-text">10-1000 caractères</small>
+            </div>
+            
+            <!-- Protection CSRF avec token -->
+            <input type="hidden" name="_csrf" id="csrf-token">
+            
+            <!-- reCAPTCHA -->
+            <div class="form-group">
+                <div class="g-recaptcha" data-sitekey="6Lf2tjYrAAAAAFKv3QGsvc0zEAdhC4lHpRwwaT2a"></div>
+                <small class="form-text">Veuillez valider que vous n'êtes pas un robot</small>
+            </div>
+            
+            <div class="form-group">
+                <button type="submit" id="submit-button">Envoyer</button>
+            </div>
+        </form>
+    </div>
+
+    <script src="js/formValidation.js"></script>
+</body>
+</html>

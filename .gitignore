@@ -1,0 +1,45 @@
+# Dépendances
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# Fichiers d'environnement
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+
+# Fichiers de log
+logs/
+*.log
+
+# Certificats SSL
+config/ssl/
+*.pem
+*.key
+*.crt
+
+# Fichiers de build
+build/
+dist/
+out/
+
+# Fichiers temporaires
+tmp/
+temp/
+.DS_Store
+Thumbs.db
+
+# Fichiers IDE
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+*.swp
+*.swo
+
+# Fichiers de déploiement
+.vercel
+.netlify
